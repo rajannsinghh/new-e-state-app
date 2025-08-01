@@ -1,26 +1,670 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ================== GENERAL ==================== */
+*{
+  box-shadow: border-box;
+  padding: 0;
+  margin: 0;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+body{
+  font-family: 'Outfit';
+  color: #555555;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+  color: #000000;
+}
+
+a {
+  color: #000000;
+  text-decoration: none;
+  transition: all 0.5s ease;
+}
+
+a:hover{
+  color: #2eca6a;
+  text-decoration: none;
+}
+
+.link-two .link-one{
+  color: #000000;
+  transition: all 0.5s ease;
+}
+
+.link-two:hover .link-one:hover{
+  text-decoration: underline;
+  color: #000000;
+}
+
+.link-icon{
+  color: #000000;
+  font-weight: 500;
+}
+
+.link-icon span{
+  font-size: 14px;
+  padding-left: 4px;
+  vertical-align: middle;
+}
+
+.link-a{
+  text-decoration: none;
+  color: #ffffff;
+}
+
+@media screen and (min-width: 768px) {
+  .link-a{
+    font-size: 0.9rem;
+  }
+  .link-a span{
+    font-size: 1.5rem;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@media screen and (min-width: 992px) {
+  .link-a{
+    font-size: 1rem;
+  }
+
+  .link-a span{
+    font-size: 18px;
+  }
+} 
+
+.link-a:hover{
+  text-decoration: none;
+  color: #ffffff;
 }
+
+.link-a span{
+  font-size: 18px;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+
+.text-brand{
+  color: #000000;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+@media screen and (min-width: 767px) {
+  .text-brand{
+    font-size: 1.8rem;
+  }
+}
+
+.color-a{
+  text-decoration: none;
+  color: #000000;
+}
+
+.color-b{
+  color: #2eca6a;
+}
+
+.color-d{
+  color: #adadad;
+}
+
+.color-text-a{
+  text-decoration: none;
+  color: #555555;
+}
+
+.no-margin{
+  margin: 0;
+}
+
+/* ==================== NAV PILLS ==================== */
+
+.nav-pills-a{
+  text-decoration: none;
+}
+
+.nav-pills-a.nav-pills .nav-link{
+  color: #000000;
+  position: relative;
+  font-weight: 600;
+}
+
+.nav-pills-a.nav-pills .nav-link.active{
+  background-color: transparent;
+}
+
+.nav-pills-a.nav-pills .nav-link.active::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 2px;
+  background-color: #2eca6a;
+  z-index: 2;
+}
+
+/* ==================== BG IMAGE ==================== */
+
+.bg-image{
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center center;
+}
+
+/* ==================== LIST a ==================== */
+
+.list-a {
+  text-decoration: none;
+  display: inline-block;
+  line-height: 2;
+  padding: 0;
+  list-style: none;
+}
+
+.list-a li{
+  position: relative;
+  width: 50%;
+  float: left;
+  padding-left: 25px;
+  padding-right: 5px;
+}
+
+@media screen and (min-width: 992px) {
+  .list-a li{
+    width: 33.333%;
+  }
+}
+
+.link-a li::before{
+  content: "";
+  width: 10px;
+  height: 2px;
+  position: absolute;
+  background-color: #313131;
+  top: 15px;
+  left: 0;
+}
+
+/* ==================== PAGINATION-a =================== */
+
+.pagination-a{
+  text-decoration: none;
+}
+
+.pagination-a .pagination .page-link{
+  margin: 0 0.2rem;
+  border-color: transparent;
+  padding: 0.5rem 0.8rem;
+  color: #000000;
+}
+
+.pagination-a .pagination .page-link:hover,
+.pagination-a .pagination .page-link:focus,
+.pagination-a .pagination .page-link:active{
+  background-color: #2eca6a;
+}
+
+.pagination-a .pagination .page-link{
+  font-size: 1.2rem;
+}
+
+.pagination-a .pagination .next .page-link{
+  padding: 0.4rem 0.9rem;
+}
+
+.pagination-a .pagination .page-item:last-child .page-link{
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.pagination-a .pagination .page-item:first-child .page-link{
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.pagination-a .pagination .page-item:disabled .page-link{
+  padding: 0.4rem 0.9rem;
+  color: #555555;
+}
+
+.pagination-a .pagination .page-item:active .page-link{
+  background-color: #2eca6a;
+}
+
+.a{
+  text-decoration: none;
+  color: #2eca6a;
+  font-size: 1.3rem;
+}
+
+/* ===================== ICON BOX ==================== */
+
+.icon-box .icon-box-icon{
+  display: table-cell;
+  vertical-align: top;
+  font-size: 36px;
+  color: #000000;
+  width: 50px;
+  padding-top: 8px;
+}
+
+.icon-box .icon-box-content{
+  padding-top: 18px;
+}
+
+/* ==================== SPACE PADDING ==================== */
+
+.section-t8{
+  padding-top: 8rem;
+}
+
+@media screen and (min-width: 767px) {
+  .section-t8{
+    padding-top: 4rem;
+  }
+}
+
+.section-t4{
+  padding-top: 4rem;
+}
+
+@media  screen and (min-width: 767px) {
+  .section-t4{
+    padding-top: 2rem;
+  }
+}
+
+.section-t3{
+  padding-top: 3rem;
+}
+
+@media  screen and (min-width: 767px) {
+  .section-md-t3{
+    padding-top: 3rem;
+  }
+}
+
+.section-b2{
+  padding-bottom: 2rem;
+}
+
+.section-tb85{
+  padding: 8rem 0 5rem 0;
+}
+
+@media  screen and (min-width: 767px) {
+  .section-tb85{
+    padding: 4rem 0 2.5rem 0;
+  }
+}
+
+/* ==================== TITLE ===================== */
+
+.title-wrap{
+  padding-bottom: 4rem;
+}
+
+.title-a{
+  text-decoration: none;
+  font-size: 2.6rem;
+  font-weight: 600;
+}
+
+.title-link{
+  font-size: 1.2rem;
+  font-weight: 300;
+  padding-top: 1.2rem;
+}
+
+.title-link a{
+  text-decoration: none;
+  color: #313131;
+}
+
+.title-link span{
+  font-size: 20px;
+  padding-left: 4px;
+  vertical-align: middle;
+}
+
+.title-box-d{
+  padding-bottom: 1.8rem;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.title-box-d .title-d{
+  font-weight: 600;
+  font-size: 2rem;
+}
+
+.title-box-d .title-d::after{
+  content: "";
+  position: absolute;
+  width: 70px;
+  height: 4px;
+  background-color: #2eca6a;
+  bottom: 20px;
+  left: 0;
+}
+
+/* ==================== DISPLAY TABLE & TABLE CELL ====================== */
+
+.display-table{
+  width: 100%;
+  height: 100%;
+  display: table;
+}
+
+.table-cell{
+  display: table-cell;
+  vertical-align: middle;
+}
+
+/* ==================== UL RESPECT ==================== */
+
+.ul-respect ul,
+.box-comments ul,
+.list-a ul{
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+/* ==================== OVERLAYS =================== */
+
+.overlay-a{
+  text-decoration: none;
+  background: linear-gradient(to bottom,
+  rgba(0, 0, 0, 0) 0%,
+  rgba(0, 0, 0, 0.2) 27%,
+  rgba(0, 0, 0, 0.65) 98%);
+}
+
+.overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.carousel-pagination{
+  margin-top: 10px;
+  text-align: center;
+}
+
+.carousel-pagination .swiper-pagination-bullet{
+  width: 18px;
+  height: 10px;
+  background-color: #555;
+  margin: 0 4px;
+  border-radius: 0;
+  opacity: 1;
+  transition: 0.3s;
+}
+
+.carousel-pagination .swiper-pagination-bullet-active{
+  background-color: #2eca6a;
+  width: 36px;
+}
+
+.nav-arrow-a{
+  text-decoration: none;
+}
+
+.nav-arrow-a .owl-arrow .owl-nav{
+  font-size: 1.8rem;
+  margin-top: -110px;
+}
+
+.nav-arrow-a .owl-arrow .owl-nav .owl-next{
+  margin-left: 15px;
+}
+
+.nav-arrow-b .owl-arrow .owl-nav{
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 1.2rem;
+}
+
+.nav-arrow-b .owl-arrow .owl-nav .owl-prev,
+.nav-arrow-b .owl-arrow .owl-nav .owl-next{
+  padding: 0.7rem 1.5rem !important;
+  display: inline-block;
+  transition: all 0.6s ease-in-out;
+  color: #ffffff;
+  background-color: #2eca6a;
+  opacity: 0.9;
+}
+
+.nav-arrow-b .owl-arrow .owl-nav .owl-prev.disabled,
+.nav-arrow-b .owl-arrow .owl-nav .owl-next.disabled{
+  transition: all 0.6s ease-in-out;
+  color: #ffffff;
+}
+
+.nav-arrow-b .owl-arrow .owl-nav .owl-prev:hover,
+.nav-arrow-b .owl-arrow .owl-nav .owl-next:hover{
+  background-color: #26a356;
+}
+
+.nav-arrow-b .owl-arrow .owl-nav .owl-next{
+  margin-left: 0px;
+}
+
+/* ==================== SOCIALS =================== */
+.socials-a{
+  text-decoration: none;
+}
+
+.socials-a .list-inline-item:not(:last-child) {
+  margin-right: 25px;
+}
+/* ==================== BUTTON ==================== */
+
+.btn{
+  transition: 0.5s ease;
+}
+
+.btn.btn-a,
+.btn.btn-b{
+  border-radius: 0;
+  padding: 1rem 3rem;
+  letter-spacing: 0.05rem;
+}
+
+.btn.btn-a{
+  text-decoration: none;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.btn.btn-a:hover{
+  background-color: #2eca6a;
+  color: #000000;
+}
+
+.btn.btn-b{
+  background-color: #2eca6a;
+  color: #000000;
+}
+
+.btn.btn-b:hover{
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.btn.btn.btn-b-n{
+  background-color: #2eca6a;
+  color: #ffffff;
+  border-radius: 0;
+}
+
+.btn.btn.btn-b-n:hover{
+  background-color: #26a356;
+  color: #ffffff;
+}
+
+.navbar-toggle-box{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  padding: 10px;
+}
+
+.navbar-toggle-box i{
+  line-height: 0;
+}
+
+/* ==================== CARD GENERAL ==================== */
+
+@media screen and (max-width: 767px) {
+  .card-box-a,
+  .card-box-b,
+  .card-box-c,
+  .card-box-d{
+    margin-bottom: 2.5rem;
+  }
+}
+
+.card-box-a span,
+.card-box-b span,
+.card-box-c span,
+.card-box-d span{
+  line-height: 0;
+}
+
+@media screen and (min-width: 768px) {
+  .grid .card-box-a,
+  .grid .card-box-b,
+  .grid .card-box-c,
+  .grid .card-box-d{
+    margin-bottom: 2.5rem;
+  }
+}
+
+.card-box-a,
+.card-box-b,
+.card-box-d{
+  position: relative;
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.card-box-a .img-a,
+.card-box-a .img-b,
+.card-box-b .img-a,
+.card-box-b .img-b{
+  transition: 0.8s all ease-in-out;
+}
+
+@media screen and (min-width: 768px) {
+  .card-box-a:hover .img-a,
+  .card-box-a:hover .img-b,
+  .card-box-b:hover .img-a,
+  .card-box-b:hover .img-b{
+    transform: scale(1.2);
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .card-box-a .price-a,
+  .card-box-b .price-a{
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .card-box-a .price-a,
+  .card-box-b .price-a{
+    font-size: 1rem;
+  }
+}
+
+.card-overlay{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+
+.card-shadow{
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.card-overlay::before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.2) 27%,
+    rgba(0, 0, 0, 0.65) 98%
+  );
+}
+
+/* ===================== INTRO SINGLE ==================== */
+.intro-single{
+  padding: 12rem 0 3rem;
+}
+
+@media screen and (max-width: 767px) {
+  .intro-single{
+    padding-top: 9rem;
+  }
+}
+
+.intro-single .title-single-box{
+  padding: 1rem 0 1rem 2rem;
+  border-left: 3px solid #2eca6a;
+}
+
+.intro-single .title-single-box .title-single{
+  font-weight: 600;
+  font-size: 2.2rem;
+}
+
+@media screen and (min-width: 768px) {
+  .intro-single .title-single-box .title-single{
+  font-size: 2.1rem;
+}
+}
+
+@media screen and (min-width: 992px) {
+  .intro-single .title-single-box .title-single{
+  font-size: 2.5rem;
+}
+}
+
+.intro-single .breadcrumb-box{
+  padding: 1rem 0 0 0.5rem;
+}
+
+.intro-single .breadcrumb{
+  background-color: transparent;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+
+
+
+

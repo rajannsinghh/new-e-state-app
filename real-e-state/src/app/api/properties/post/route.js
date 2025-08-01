@@ -17,18 +17,20 @@ export async function POST(req) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     await connectDB();
 
-    const { title, description, price, location } = await req.json();
+    const { title, description, price, location, image } = await req.json();
 
     const property = await Property.create({
       title,
       description,
       price,
       location,
-      postedBy: decoded.userId,
+      postedBy: decoded.id,
+      isApproved: false,
+      images: image ? [image] : [],
     });
 
     // Notify owner by email
-    const user = await User.findById(decoded.userId);
+    const user = await User.findById(decoded.id);
 
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -51,7 +53,7 @@ export async function POST(req) {
       `,
     });
 
-    return NextResponse.json({ message: 'Property submitted. Awaiting approval.' });
+    return NextResponse.json({ message: 'Property submitted. Awaiting approval.', property });
   } catch (err) {
     return NextResponse.json({ error: 'Invalid token or internal error' }, { status: 500 });
   }

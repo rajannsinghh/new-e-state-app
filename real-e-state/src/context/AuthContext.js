@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUser = async () => {
     try {
-      const res = await fetch('/api/auth/me', { method: 'GET' });
+      const res = await fetch('/api/auth/me', { method: 'GET', credentials: 'include'});
       const data = await res.json();
       if (data.user) setUser(data.user);
       else setUser(null);
@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    await fetch('/api/auth/logout', { method: 'POST' });
+    await fetch('/api/auth/logout', { method: 'POST',});
     setUser(null);
   };
 

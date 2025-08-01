@@ -5,8 +5,9 @@ import { connectDB } from '@/lib/db';
 import { User } from '@/models/User';
 
 export async function GET() {
-  const tokenStore = cookies();
-  const token = (await tokenStore.get('token'))?.value; // ✅ use await
+  const cookieStore = cookies()
+  const tokenCookie = cookieStore.get('token')
+  const token = tokenCookie?.value;
 
   if (!token) {
     return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
@@ -23,6 +24,6 @@ export async function GET() {
 
     return NextResponse.json({ user });
   } catch (err) {
-    return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+    return NextResponse.json({ error: 'Invalid token' }, { status: 403 });
   }
 }

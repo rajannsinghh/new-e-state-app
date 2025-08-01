@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
 import { NextResponse } from 'next/server';
 
-export async function POST(req) {
+export async function GET() {
   const token = cookies().get('token')?.value;
   if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
@@ -14,19 +14,10 @@ export async function POST(req) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { id, approve } = await req.json();
     await connectDB();
-
-    if (!id) return NextResponse.json({ error: 'Missing property id' }, { status: 400 });
-
-    if (approve) {
-      await Property.findByIdAndUpdate(id, { isApproved: true });
-      return NextResponse.json({ message: 'Property approved' });
-    } else {
-      await Property.findByIdAndDelete(id);
-      return NextResponse.json({ message: 'Property rejected & deleted' });
-    }
+    const properties = await Property.find({ isApproved: false }).populate('postedBy', 'name email');
+    return NextResponse.json({ properties });
   } catch (err) {
-    return NextResponse.json({ error: 'Invalid token or server error' }, { status: 500 });
+    return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
   }
 }
