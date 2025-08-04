@@ -1,20 +1,19 @@
 import { cookies } from 'next/headers';
-import jwt from 'jsonwebtoken';
+import { jwtVerify } from 'jose';
 import { User } from '@/models/User';
 import { connectDB } from './db';
 
 export async function getUserFromToken() {
   await connectDB();
-  const cookieStore = cookies();
-  const token = cookieStore.get('token')?.value;
-
+  const token = cookies().get('token')?.value;
   if (!token) return null;
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id).select('-password');
+    const { payload } = await jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET));
+    const user = await User.findById(payload.id).select('-password');
+    if (user?.isBlocked) return null;
     return user;
-  } catch (err) {
+  } catch {
     return null;
   }
 }

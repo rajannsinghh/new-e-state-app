@@ -62,7 +62,7 @@ export default function InquiriesPage() {
         </button>
       </div>
 
-      {/* ✅ Filter Component */}
+      {/*Filter Component */}
       <InquiryFilters onFilter={fetchInquiries} />
 
       {loading ? (

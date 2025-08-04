@@ -10,7 +10,7 @@ cloudinary.config({
 
 export async function POST(req) {
   const formData = await req.formData();
-  const file = formData.get('file'); // expects a file input with name="file"
+  const file = formData.get('file');
 
   if (!file) {
     return NextResponse.json({ error: 'No file provided' }, { status: 400 });
@@ -18,17 +18,19 @@ export async function POST(req) {
 
   const buffer = Buffer.from(await file.arrayBuffer());
 
-  const stream = cloudinary.uploader.upload_stream({ folder: 'e-state' }, (error, result) => {
-    if (error) {
-      return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
-    }
-  });
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder: 'e-state' },
+      (error, result) => {
+        if (error) {
+          console.error('Cloudinary Upload Error:', error);
+          reject(NextResponse.json({ error: 'Upload failed' }, { status: 500 }));
+        } else {
+          resolve(NextResponse.json({ url: result.secure_url }));
+        }
+      }
+    );
 
-  Readable.from(buffer).pipe(stream);
-
-  return new Promise((resolve) => {
-    stream.on('finish', () => {
-      resolve(NextResponse.json({ url: stream.url }));
-    });
+    Readable.from(buffer).pipe(stream);
   });
 }

@@ -1,25 +1,25 @@
-// /src/app/api/properties/my/route.js
+import { cookies } from 'next/headers';
+import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db';
 import { Property } from '@/models/Property';
-import { cookies } from 'next/headers';
-import jwt from 'jsonwebtoken';
-import { NextResponse } from 'next/server';
+import { jwtVerify } from 'jose';
 
 export async function GET() {
   try {
-    const token = (await cookies().get('token'))?.value;
+    const token = cookies().get('token')?.value;
+    if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-    if (!token) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const { payload } = await jwtVerify(
+      new TextEncoder().encode(token),
+      new TextEncoder().encode(process.env.JWT_SECRET)
+    );
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     await connectDB();
+    const properties = await Property.find({ postedBy: payload.userId }).sort({ createdAt: -1 });
 
-    const myProperties = await Property.find({ postedBy: decoded.id }).sort({ createdAt: -1 });
-
-    return NextResponse.json({ properties: myProperties });
+    return NextResponse.json({ properties });
   } catch (err) {
-    return NextResponse.json({ error: 'Failed to fetch user properties' }, { status: 500 });
+    console.error('GET /properties/my failed:', err.message);
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }

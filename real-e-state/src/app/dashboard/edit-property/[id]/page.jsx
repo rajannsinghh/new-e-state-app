@@ -54,10 +54,25 @@ export default function EditPropertyPage() {
     }
   }
 
+  async function handleDelete() {
+    if (!confirm('Are you sure you want to delete this property?')) return;
+
+    const res = await fetch(`/api/my-properties/${id}`, {
+      method: 'DELETE',
+    });
+
+    if (res.ok) {
+      toast.success('Property deleted');
+      router.push('/dashboard/my-properties');
+    } else {
+      toast.error('Failed to delete');
+    }
+  }
+
   if (loading) return <p className="p-4">Loading...</p>;
 
   if (property.status === 'approved') {
-    return <p className="p-4 text-red-600">Approved properties cannot be edited.</p>;
+    return <p className="p-4 text-red-600">Approved properties cannot be edited or deleted.</p>;
   }
 
   return (
@@ -104,9 +119,18 @@ export default function EditPropertyPage() {
           className="w-full border p-2 rounded"
           required
         />
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-          Update Property
-        </button>
+        <div className="flex gap-4">
+          <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            Update Property
+          </button>
+          <button
+            type="button"
+            onClick={handleDelete}
+            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+          >
+            Delete Property
+          </button>
+        </div>
       </form>
     </div>
   );

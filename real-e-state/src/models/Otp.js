@@ -1,9 +1,10 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
-const otpSchema = new mongoose.Schema({
-  email: { type: String, required: true },
-  otp: { type: String, required: true },
-  expiry: { type: Date, required: true },
-}, { timestamps: true })
+const otpStoreSchema = new mongoose.Schema({
+  phone: { type: String, required: true, unique: true },
+  otpHash: String,
+  data: Object,
+  expiresAt: Date,
+}, { timestamps: true });
 
-export const Otp = mongoose.models.Otp || mongoose.model('Otp', otpSchema)
+export default mongoose.models.OtpStore || mongoose.model("OtpStore", otpStoreSchema);

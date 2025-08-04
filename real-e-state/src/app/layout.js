@@ -38,7 +38,7 @@ export default function RootLayout({ children }) {
       >
         <AuthProvider>
         {children}
-        <ToastContainer richColors position="top-right" autoClose={3000} /> 
+        <ToastContainer richColors position="top-center" autoClose={3000} /> 
         <Navbar/>
         </AuthProvider>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossOrigin="anonymous">

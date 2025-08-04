@@ -1,17 +1,15 @@
+// src/app/api/auth/logout/route.js
+
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 
-export async function GET() {
-  const cookieStore = cookies();
+export async function POST() {
+  const res = NextResponse.json({ message: 'Logged out' });
 
-  // Clear the token by setting it expired
-  cookieStore.set({
-    name: 'token',
-    value: '',
-    path: '/',
+  res.cookies.set('token', '', {
     httpOnly: true,
-    expires: new Date(0), // Expired
+    expires: new Date(0),
+    path: '/',
   });
 
-  return NextResponse.json({ message: 'Logged out successfully' });
+  return res;
 }

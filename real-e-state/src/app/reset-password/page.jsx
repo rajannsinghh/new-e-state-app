@@ -1,10 +1,14 @@
 'use client'
+
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { toast, ToastContainer } from 'react-toastify'
 
 export default function ResetPasswordPage() {
   const [form, setForm] = useState({ email: '', otp: '', newPassword: '' })
   const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState('')
+  const [redirecting, setRedirecting] = useState(false)
+  const router = useRouter()
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -13,15 +17,28 @@ export default function ResetPasswordPage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
+
     const res = await fetch('/api/verify-reset-otp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),
     })
+
     const data = await res.json()
     setLoading(false)
-    setMessage(data.message || data.error)
+
+    if (res.ok) {
+      toast.success(data.message || 'Password reset successful!')
+      setRedirecting(true)
+      setTimeout(() => {
+        router.push('/auth/login')
+      }, 2000)
+    } else {
+      toast.error(data.error || 'Failed to reset password')
+    }
   }
+
+  const isDisabled = loading || redirecting
 
   return (
     <div className="max-w-md mx-auto mt-10 p-4 border rounded shadow">
@@ -35,6 +52,7 @@ export default function ResetPasswordPage() {
           className="w-full p-2 border mb-3 rounded"
           value={form.email}
           onChange={handleChange}
+          disabled={isDisabled}
         />
         <input
           type="text"
@@ -44,6 +62,7 @@ export default function ResetPasswordPage() {
           className="w-full p-2 border mb-3 rounded"
           value={form.otp}
           onChange={handleChange}
+          disabled={isDisabled}
         />
         <input
           type="password"
@@ -53,16 +72,16 @@ export default function ResetPasswordPage() {
           className="w-full p-2 border mb-3 rounded"
           value={form.newPassword}
           onChange={handleChange}
+          disabled={isDisabled}
         />
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
-          disabled={loading}
+          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 disabled:opacity-50"
+          disabled={isDisabled}
         >
-          {loading ? 'Resetting...' : 'Reset Password'}
+          {loading ? 'Resetting...' : redirecting ? 'Redirecting...' : 'Reset Password'}
         </button>
       </form>
-      {message && <p className="mt-4 text-sm text-center">{message}</p>}
     </div>
   )
 }

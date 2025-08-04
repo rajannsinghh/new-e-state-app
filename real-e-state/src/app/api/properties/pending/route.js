@@ -10,7 +10,7 @@ export async function GET() {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (decoded.email !== process.env.OWNER_EMAIL) {
+    if (decoded.email !== process.env.MAIL_USER) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 

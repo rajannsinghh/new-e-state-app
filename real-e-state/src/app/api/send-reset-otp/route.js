@@ -2,7 +2,7 @@ import { connectDB } from '@/lib/db'
 import { Otp } from '@/models/Otp'
 import { User } from '@/models/User'
 import { sendEmail } from '@/lib/mailer'
-import { generateOTP } from '@/lib/generateOTP'
+import { generateOTP } from '@/lib/generateOtp'
 import { NextResponse } from 'next/server'
 
 export async function POST(req) {

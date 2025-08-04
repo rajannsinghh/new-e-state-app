@@ -1,0 +1,15 @@
+/* Add this to global CSS */
+.loader {
+  border: 2px solid #ccc;
+  border-top: 2px solid #3490dc;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

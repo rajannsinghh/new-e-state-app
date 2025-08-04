@@ -1,34 +1,53 @@
-import { sendEmail } from '@/lib/mailer'
-import { connectDB } from '@/lib/db'
-import { Property } from '@/models/Property'
-import { NextResponse } from 'next/server'
+import { connectDB } from '@/lib/db';
+import { Message } from '@/models/Message';
+import { NextResponse } from 'next/server';
+import nodemailer from 'nodemailer';
 
 export async function POST(req) {
   try {
-    const { propertyId, message, fromUser, toUser } = await req.json()
-    await connectDB()
+    await connectDB();
 
-    const property = await Property.findById(propertyId)
-    if (!property) {
-      return NextResponse.json({ error: 'Property not found' }, { status: 404 })
+    const { propertyId, fromUser, toUser, message } = await req.json();
+
+    // Basic validation
+    if (!propertyId || !fromUser || !toUser || !message?.trim()) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    const html = `
-      <p>You have a new inquiry for your property: <strong>${property.title}</strong></p>
-      <p><strong>From:</strong> ${fromUser}</p>
-      <p><strong>Message:</strong></p>
-      <p>${message}</p>
-    `
+    // Save to DB
+    const newMessage = await Message.create({
+      propertyId,
+      fromUser,
+      toUser,
+      message: message.trim(),
+    });
 
-    await sendEmail({
-      to: toUser || process.env.OWNER_EMAIL,
-      subject: 'New Property Inquiry',
-      html,
-    })
+    // Email setup
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS,
+      },
+    });
 
-    return NextResponse.json({ message: 'Message sent successfully' })
+    // Send notification email to property owner
+    await transporter.sendMail({
+      from: `"E-State Contact" <${process.env.MAIL_USER}>`,
+      to: toUser,
+      subject: 'New Inquiry on Your Property',
+      html: `
+        <p>You received a new message regarding your property listing.</p>
+        <p><strong>From:</strong> ${fromUser}</p>
+        <p><strong>Message:</strong></p>
+        <blockquote style="background:#f9f9f9;padding:10px;border-left:4px solid #ccc;">${message}</blockquote>
+        <p>Please log in to your dashboard to respond.</p>
+      `,
+    });
+
+    return NextResponse.json({ success: true, message: 'Message sent successfully' });
   } catch (err) {
-    console.error(err)
-    return NextResponse.json({ error: 'Failed to send message' }, { status: 500 })
+    console.error('Contact form error:', err);
+    return NextResponse.json({ error: 'Server error. Please try again.' }, { status: 500 });
   }
 }
